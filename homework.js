@@ -4,6 +4,7 @@
 
 function pow(a, b) {
   let result;
+
   if (isNaN(a) || isNaN(b)) {
     console.log("Please input correct value (must be number)");
     console.log("Type of some value is " + typeof a);
@@ -15,11 +16,17 @@ function pow(a, b) {
     result = a;
   }
   if (b < 0) {
+    result = a;
+    for (let i = 0; i < -b - 1; i++) {
+      result = result * a;
+    }
+    result = 1 / result;
   }
   if (b > 0 || b < 1) {
-  } else {
+  }
+  if (b > 1) {
     result = a;
-    for (let i = 0; i < b; i++) {
+    for (let i = 0; i < b - 1; i++) {
       result = result * a;
     }
   }
@@ -27,4 +34,4 @@ function pow(a, b) {
   console.log("Result is: " + result);
 }
 
-pow(2, 3);
+pow(2, -4);
