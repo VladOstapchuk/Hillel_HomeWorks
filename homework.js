@@ -23,6 +23,7 @@ function pow(a, b) {
     result = 1 / result;
   }
   if (b > 0 || b < 1) {
+    console.log("Без математичних бібліотек порахувати КОРІНЬ важко :)");
   }
   if (b > 1) {
     result = a;
@@ -34,4 +35,4 @@ function pow(a, b) {
   console.log("Result is: " + result);
 }
 
-pow(2, -4);
+pow(2, -3);
