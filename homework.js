@@ -1,41 +1,71 @@
-//Опис ДЗ: Перевірка теорії ймовірності. Напишіть функцію яка буде генерувати певну кількість
-//  випадкових чисел в діапазоні від 100 до 1000 включно. Порахувати кількість парних та непарних
-//  серед них. Обчислити відсоткове співвідношення - чи буде воно близьке до 50%50?
-// Приклад функції checkProbabilityTheory(count). Парметр count буде вказувати скільки разів буде генеруватися випадкове число.
+var services = {
+  стрижка: "60 грн",
+  гоління: "80 грн",
+  "Миття голови": "100 грн",
+};
 
-checkProbabilityTheory(100);
-
-function checkProbabilityTheory(count) {
-  let evenNumberCount = 0;
-  let oddNumberCount = 0;
-  let percentageOddNumbers;
-  let percentageEvenNumbers;
-  for (let index = 0; index < count; index++) {
-    let generetedNumb = getRandomIntInclusive(100, 1000); //call the random function
-    //console.log(generetedNumb);
-    if (generetedNumb % 2) {
-      oddNumberCount++;
-    } else evenNumberCount++;
+//Розрахунок суми значень прайсів всіх послуг в об'єкті
+function price(object) {
+  let totalPrice = 0;
+  for (const key in object) {
+    if (validityСheck(key) && validityСheck(object[key])) {
+      totalPrice += valuePreparation(object[key]);
+    }
   }
-
-  percentageOddNumbers = (oddNumberCount / count) * 100; //calculating the percentage
-  percentageEvenNumbers = (evenNumberCount / count) * 100; //calculating the percentage
-
-  console.log("Кількість згенерованих чисел: ", count);
-  console.log("Парних чисел: ", evenNumberCount);
-  console.log("Непарних чисел: ", oddNumberCount);
-  console.log(
-    "Відсоток парних до не парних: ",
-    Math.round(percentageEvenNumbers) + // round to the nearest whole number, because sometimes the result is not rounded
-      "%" +
-      " / " +
-      Math.round(percentageOddNumbers) + // round to the nearest whole number, because sometimes the result is not rounded
-      "%"
-  );
+  return totalPrice;
 }
 
-function getRandomIntInclusive(min, max) {
-  const minCeiled = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
+//Визнечення мінімального прайсу серед всіх послуг в об'єкті
+function minPrice(object) {
+  let minPrice = Infinity;
+  for (const key in object) {
+    if (validityСheck(key) && validityСheck(object[key])) {
+      if (minPrice > valuePreparation(object[key])) {
+        minPrice = valuePreparation(object[key]);
+      }
+    }
+  }
+  return minPrice;
 }
+
+//Визнечення максимального прайсу серед всіх послуг в об'єкті
+function maxPrice(object) {
+  let maxPrice = -Infinity;
+  for (const key in object) {
+    if (validityСheck(key) && validityСheck(object[key])) {
+      if (maxPrice < valuePreparation(object[key])) {
+        maxPrice = valuePreparation(object[key]);
+      }
+    }
+  }
+  return maxPrice;
+}
+
+//Перевірка значення на валідність (Не null, Не NaN, Не функція, Це рядок
+// і Рядок не порожній (ігноруються пробіли))
+function validityСheck(value) {
+  if (
+    value !== null && // Не null
+    !Number.isNaN(value) && // Не NaN
+    typeof value !== "function" && // Не функція
+    typeof value === "string" && // Це рядок
+    value.trim() !== "" // Рядок не порожній (ігноруються пробіли)
+  ) {
+    return true;
+  }
+  return false;
+}
+
+//Отримуємо тільки значення прайса зі строки і повертаємо його у Float форматі
+function valuePreparation(value) {
+  return parseFloat(value.slice(0, -4));
+}
+
+console.log("Total price: ", price(services));
+console.log("Min price: ", minPrice(services));
+console.log("Max price: ", maxPrice(services));
+services["Розбити скло"] = "200 грн";
+services["Протестувати"] = "5 грн";
+console.log("Total price: ", price(services));
+console.log("Min price: ", minPrice(services));
+console.log("Max price: ", maxPrice(services));
